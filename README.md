@@ -204,3 +204,194 @@ The `!` in Rust indicates that you are invoking a macro instead of a regular fun
   - Creating collections (`vec!`)
   - Customizing behavior with procedural macros (e.g., `#[derive(Debug)]`).
 
+
+---
+
+### **`#[derive(Debug)]` in Rust**
+
+`#[derive(Debug)]` is an **attribute** in Rust used to automatically implement the `Debug` trait for a struct or enum. This trait enables you to print the values of a struct or enum using the `{:?}` formatter in macros like `println!`.
+
+#### **Why Use `#[derive(Debug)]`?**
+- Rust does not automatically provide a way to print the contents of custom types.
+- Adding the `Debug` trait allows you to inspect the values of structs and enums during development or debugging.
+
+#### **Example Usage**
+
+**Without `#[derive(Debug)]`:**
+```rust
+struct User {
+    name: String,
+    age: u32,
+}
+
+fn main() {
+    let user = User {
+        name: String::from("Sharath"),
+        age: 25,
+    };
+    // println!("{:?}", user); // This will cause a compile-time error
+}
+```
+- The code above will fail because `Debug` is not implemented for `User`.
+
+**With `#[derive(Debug)]`:**
+```rust
+#[derive(Debug)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+fn main() {
+    let user = User {
+        name: String::from("Sharath"),
+        age: 25,
+    };
+    println!("{:?}", user); // Output: User { name: "Sharath", age: 25 }
+}
+```
+
+**Pretty Printing with `:#?`:**
+To display the output in a more readable, pretty-printed format:
+```rust
+fn main() {
+    let user = User {
+        name: String::from("Sharath"),
+        age: 25,
+    };
+    println!("{:#?}", user);
+}
+```
+**Output**:
+```
+User {
+    name: "Sharath",
+    age: 25,
+}
+```
+
+#### **How `#[derive(Debug)]` Works**
+- `#[derive(Debug)]` generates an implementation of the `Debug` trait for your type.
+- The `Debug` trait is defined in Rust's standard library and provides the `fmt` method to format the type.
+
+**Generated Implementation (Simplified):**
+```rust
+impl std::fmt::Debug for User {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "User {{ name: {:?}, age: {:?} }}", self.name, self.age)
+    }
+}
+```
+
+#### **Key Notes**
+1. **Attribute**: `#[derive(Debug)]` is a Rust attribute for automatic trait derivation.
+2. **Purpose**: Makes it easy to inspect custom types during debugging.
+3. **Usage**:
+   - Use `{:?}` for simple debug output.
+   - Use `{:#?}` for pretty-printed debug output.
+4. **Customization**: If needed, you can manually implement the `Debug` trait for more control over the formatting.
+
+
+---
+### **`format!` Macro**
+The `format!` macro in Rust creates formatted strings without printing them directly. It works similarly to `println!`, but instead of printing, it returns the formatted string.
+
+#### **Usage**
+```rust
+fn main() {
+    let name = "Sharath";
+    let age = 25;
+    let message = format!("Hello, {}! You are {} years old.", name, age);
+    println!("{}", message); // Output: Hello, Sharath! You are 25 years old.
+}
+```
+
+#### **Key Points**
+- **Returns a String**: Unlike `println!` which writes to the console, `format!` returns a `String`.
+- **Formatting**: It supports the same formatting as `println!`, including placeholders like `{}` and formatting options like `{:?}`.
+
+---
+
+### **Mutable and Immutable Bindings in Rust**
+
+#### **Bindings in Rust**
+A **binding** is an association of a name (variable) to a value. In Rust:
+- Variables are **immutable by default**, meaning their value cannot be changed after they are bound.
+- To make a variable mutable, you must explicitly use the `mut` keyword.
+
+#### **Immutable Bindings**
+By default, variables cannot be reassigned:
+```rust
+fn main() {
+    let x = 10;
+    // x = 20; // Compile-time error: cannot assign twice to immutable variable
+    println!("{}", x); // Output: 10
+}
+```
+
+#### **Mutable Bindings**
+Using the `mut` keyword, you can make a variable mutable:
+```rust
+fn main() {
+    let mut x = 10;
+    x = 20; // Allowed because `x` is mutable
+    println!("{}", x); // Output: 20
+}
+```
+
+---
+
+### **Key Notes**
+
+1. **Immutable by Default**:
+   - Ensures safety by preventing unintended changes to variables.
+   - Encourages writing predictable and thread-safe code.
+
+2. **`mut` Keyword**:
+   - Explicitly allows a variable to be modified.
+   - Example:
+     ```rust
+     let mut count = 0;
+     count += 1; // Allowed because of `mut`
+     ```
+
+---
+
+### **Using `{:#?}` for Debugging**
+
+The `{:#?}` syntax is used with `println!` to pretty-print values, making them easier to read.
+
+#### **Example**
+```rust
+#[derive(Debug)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+fn main() {
+    let user = User {
+        name: String::from("Sharath"),
+        age: 25,
+    };
+    println!("{:#?}", user);
+}
+```
+
+**Output:**
+```
+User {
+    name: "Sharath",
+    age: 25,
+}
+```
+
+---
+
+### **Key Notes Summary**
+- **`format!`**: Returns a formatted string for reuse.
+- **Bindings**: Immutable by default; use `mut` for mutability.
+- **`mut` Keyword**: Required for variables that will change.
+- **`{:#?}`**: Pretty-prints structures for better readability.
+
+---
