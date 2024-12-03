@@ -395,3 +395,121 @@ User {
 - **`{:#?}`**: Pretty-prints structures for better readability.
 
 ---
+
+### **Inherent Implementation in Rust (`impl`)**
+
+In Rust, you can define **inherent implementations** for structs or enums using the `impl` block. These implementations allow you to associate methods and functions directly with a type.
+
+---
+
+### **Key Concepts**
+
+1. **`impl` Block**:
+   - The `impl` block is where you define methods (functions associated with a type) and functions for a struct or enum.
+   - These methods can access fields of the struct or enum.
+
+   **Example**:
+   ```rust
+   struct User {
+       name: String,
+       age: u32,
+   }
+
+   impl User {
+       fn greet(&self) {
+           println!("Hello, {}!", self.name);
+       }
+   }
+
+   fn main() {
+       let user = User {
+           name: String::from("Sharath"),
+           age: 25,
+       };
+       user.greet(); // Output: Hello, Sharath!
+   }
+   ```
+
+2. **`Self`**:
+   - Represents the type for which the `impl` block is written.
+   - It can refer to the type (`Self`) or an instance (`self`).
+     - **`Self`**: Refers to the type.
+     - **`self`**: Refers to the current instance.
+
+   **Example**:
+   ```rust
+   impl User {
+       fn new(name: String, age: u32) -> Self {
+           Self { name, age } // Creates a new instance
+       }
+   }
+
+   fn main() {
+       let user = User::new(String::from("Sharath"), 25);
+       println!("{} is {} years old.", user.name, user.age);
+   }
+   ```
+
+3. **`new` Method**:
+   - It is a convention in Rust to define a method named `new` in the `impl` block as a constructor for your type.
+   - It simplifies creating instances.
+
+   **Example**:
+   ```rust
+   struct Point {
+       x: i32,
+       y: i32,
+   }
+
+   impl Point {
+       fn new(x: i32, y: i32) -> Self {
+           Self { x, y }
+       }
+   }
+
+   fn main() {
+       let point = Point::new(5, 10);
+       println!("Point({}, {})", point.x, point.y);
+   }
+   ```
+
+4. **Associated Functions vs Methods**:
+   - **Associated Functions**: Do not take `self` as the first parameter and are called using `Type::function()`.
+   - **Methods**: Take `self`, `&self`, or `&mut self` as the first parameter and are called using `instance.method()`.
+
+   **Example**:
+   ```rust
+   struct Calculator;
+
+   impl Calculator {
+       fn add(a: i32, b: i32) -> i32 {
+           a + b // Associated function
+       }
+
+       fn subtract(&self, a: i32, b: i32) -> i32 {
+           a - b // Method (requires an instance)
+       }
+   }
+
+   fn main() {
+       println!("{}", Calculator::add(5, 3)); // Output: 8
+
+       let calc = Calculator;
+       println!("{}", calc.subtract(5, 3)); // Output: 2
+   }
+   ```
+
+---
+
+### **Key Notes Summary**
+1. **`impl`**: Used to define methods and functions associated with a type.
+2. **`Self`**:
+   - `Self`: Refers to the type within the `impl` block.
+   - `self`: Refers to the current instance of the type.
+3. **`new`**:
+   - A conventionally named constructor function for creating instances of a type.
+4. **Associated Functions vs Methods**:
+   - Associated functions don’t require an instance (`Self::function()`).
+   - Methods require an instance (`self.method()`).
+
+---
