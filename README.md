@@ -513,3 +513,89 @@ In Rust, you can define **inherent implementations** for structs or enums using 
    - Methods require an instance (`self.method()`).
 
 ---
+In Rust, **double quotes (`"`)** and **single quotes (`'`)** have distinct meanings and uses:
+
+---
+
+### **Double Quotes (`"`)**
+Double quotes are used to define **string literals** (`&str` type). A string literal is a slice of UTF-8 text data that is immutable and stored in the program's binary.
+
+#### **Examples**:
+```rust
+fn main() {
+    let greeting = "Hello, World!"; // &str type
+    println!("{}", greeting); // Output: Hello, World!
+}
+```
+
+#### **Key Points**:
+- Strings in double quotes (`"`) are of type `&str`, which is a reference to a string slice.
+- `&str` is immutable and stored in memory as a sequence of UTF-8 characters.
+- To create a mutable, heap-allocated string, you can use the `String` type:
+  ```rust
+  let mut dynamic_string = String::from("Hello");
+  dynamic_string.push_str(", World!");
+  println!("{}", dynamic_string); // Output: Hello, World!
+  ```
+
+---
+
+### **Single Quotes (`'`)**
+Single quotes are used to define **character literals** (`char` type). A `char` represents a single Unicode scalar value, which could be a letter, number, symbol, or even an emoji.
+
+#### **Examples**:
+```rust
+fn main() {
+    let letter = 'A'; // char type
+    let number = '1'; // char type
+    let emoji = '😊'; // char type
+    println!("{} {} {}", letter, number, emoji); // Output: A 1 😊
+}
+```
+
+#### **Key Points**:
+- A `char` is a 4-byte Unicode scalar value.
+- Each `char` represents a single character, unlike strings which can contain multiple characters.
+- A `char` is enclosed in single quotes (`'`), and it cannot represent more than one character.
+
+---
+
+### **Key Differences Between Double and Single Quotes**
+| **Aspect**   | **Double Quotes (`"`)**          | **Single Quotes (`'`)**        |
+| ------------ | -------------------------------- | ------------------------------ |
+| **Type**     | `&str` (string slice)            | `char` (single Unicode scalar) |
+| **Purpose**  | Represents strings (text data).  | Represents single characters.  |
+| **Examples** | `"Hello, Rust!"`                 | `'H'`, `'😊'`, `'1'`            |
+| **Length**   | Can contain multiple characters. | Always exactly one character.  |
+
+---
+
+### **Practical Usage Differences**
+1. **For Text**:
+   - Use double quotes (`"`) for strings.
+   - Use single quotes (`'`) for single characters.
+
+2. **Concatenation**:
+   - Strings (`&str` or `String`) can be concatenated using `.push_str()` or the `+` operator.
+   - Characters (`char`) can only be concatenated after conversion to a string.
+
+   **Example**:
+   ```rust
+   fn main() {
+       let mut text = String::from("Hello");
+       text.push(' '); // Adding a char
+       text.push_str("Rust!"); // Adding a string
+       println!("{}", text); // Output: Hello Rust!
+   }
+   ```
+
+3. **Iteration**:
+   - Strings can be iterated over to yield individual `char` values.
+   ```rust
+   let greeting = "Hi!";
+   for c in greeting.chars() {
+       println!("{}", c); // Prints H, i, !
+   }
+   ```
+
+Let me know if you'd like further clarification!
