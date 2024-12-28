@@ -29,11 +29,15 @@ impl Deck {
             }
         }
 
-        return Deck { cards };
+        // return Deck { cards }; /* return the deck in normal way */
+        Deck { cards } /* this is return with semicolon dropped */
     }
+
+    fn shuffle(&self) {}
 }
 
 fn main() {
     let dec = Deck::new();
+    dec.shuffle();
     println!("Here is you deck:{:#?}", dec);
 }
