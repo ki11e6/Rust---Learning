@@ -1466,3 +1466,67 @@ In Rust, `usize` is an **unsigned integer type** used primarily for indexing and
 - Its size depends on the architecture (32-bit or 64-bit).
 - It is commonly used with collections like arrays and vectors and for low-level operations involving memory size or raw pointers.
 
+### **Attributes in Rust**
+
+Attributes in Rust are **metadata** applied to various parts of a program, such as modules, functions, structs, enums, or crates. They provide additional information to the compiler or modify the behavior of the program during compilation. Attributes are prefixed with a `#` and enclosed in square brackets (`#[...]`).
+
+---
+
+### **Types of Attributes in Rust**
+
+1. **Outer Attributes**:
+   - Applied to the item that follows them (e.g., a function, struct, or module).
+   - Syntax: `#[attribute]`
+   - Example:
+     ```rust
+     #[derive(Debug)]
+     struct MyStruct {
+         field: i32,
+     }
+     ```
+
+2. **Inner Attributes**:
+   - Apply to the enclosing scope (e.g., a module or crate).
+   - Syntax: `#![attribute]`
+   - Example:
+     ```rust
+     #![allow(dead_code)] // Applies to the entire crate
+
+     fn unused_function() {}
+     ```
+
+---
+
+### **Commonly Used Attributes**
+
+1. **Compiler Lints**:
+   - Enable or disable specific warnings or errors during compilation.
+   - Examples:
+     - `#[allow(lint)]`: Suppresses specific warnings.
+     - `#[warn(lint)]`: Shows warnings.
+     - `#[deny(lint)]`: Converts warnings to errors.
+     - `#[forbid(lint)]`: Prevents warnings or errors entirely.
+
+   Example:
+   ```rust
+   fn main() {
+       #[allow(dead_code)]
+       fn unused_function() {}
+   }
+   ```
+
+2. **`derive` Attribute**:
+   - Automatically implements common traits for a struct or enum (e.g., `Debug`, `Clone`, `PartialEq`).
+   - Example:
+     ```rust
+     #[derive(Debug, Clone)]
+     struct MyStruct {
+         field: i32,
+     }
+     ```
+
+3. **Testing Attributes**:
+   - Used for writing unit
+
+---
+
