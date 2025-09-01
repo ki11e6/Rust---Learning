@@ -1,18 +1,21 @@
-
-### **Data Types in Rust**
+<!-- markdownlint-disable-file MD024 -->
+# **Data Types in Rust**
 
 Rust is a statically-typed language, meaning data types must be known at compile time. Rust data types are categorized into **Scalar** and **Compound** types.
 
 ---
 
-#### **1. Scalar Types**
+## **1. Scalar Types**
+
 Represent a single value:
+
 - **Integer Types**: `i8`, `i16`, `i32`, `i64`, `i128`, `isize` (signed); `u8`, `u16`, `u32`, `u64`, `u128`, `usize` (unsigned)
 - **Floating-Point Types**: `f32`, `f64`
 - **Boolean Type**: `bool` (`true`, `false`)
 - **Character Type**: `char` (4 bytes, supports Unicode)
 
 **Example**:
+
 ```rust
 let x: i32 = 42; // Integer
 let pi: f64 = 3.14; // Floating-point
@@ -22,13 +25,18 @@ let heart: char = '❤️'; // Character
 
 ---
 
-#### **2. Compound Types**
+## **2. Compound Types**
+
 Combine multiple values:
+
 - **Tuples**: Fixed-size collections of various types.
+
   ```rust
   let tuple: (i32, f64, char) = (10, 3.14, 'x');
   ```
+
 - **Arrays**: Fixed-size collections of the same type.
+
   ```rust
   let arr: [i32; 3] = [1, 2, 3];
   ```
@@ -36,12 +44,16 @@ Combine multiple values:
 ---
 
 ### **Mutable and Immutable**
+
 - **Immutable (default)**: Variables are immutable by default, meaning their values cannot be changed after binding.
+
   ```rust
   let x = 10;
   // x = 20; // This will throw an error
   ```
+
 - **Mutable**: Declared with `mut`, allowing the value to change.
+
   ```rust
   let mut x = 10;
   x = 20; // This works
@@ -50,9 +62,11 @@ Combine multiple values:
 ---
 
 ### **Bindings (Variables)**
+
 - **Variable bindings** associate a value with a name.
 - Variables are immutable by default, ensuring safety and predictability.
 - **Shadowing**: You can redeclare a variable with the same name, even changing its type.
+
   ```rust
   let x = 5;       // Immutable binding
   let x = x + 1;   // Shadowing allows re-binding
@@ -61,6 +75,7 @@ Combine multiple values:
 ---
 
 ### **Key Points**
+
 1. **Data Types**: Scalar (integer, float, bool, char) and Compound (tuple, array).
 2. **Mutable vs Immutable**:
    - Immutable is the default; use `mut` for mutable variables.
@@ -69,16 +84,17 @@ Combine multiple values:
    - Immutable bindings promote safety.
    - Shadowing allows redefining a variable for transformations or type changes.
 
-
 ---
 
 ### **Vector (`Vec<T>`) vs Array (`[T; N]`)**
 
 #### **Vector (`Vec<T>`)**
+
 - A **vector** is a growable, heap-allocated collection that can store multiple values of the same type.
 - Useful when the number of elements is unknown at compile time or needs to change dynamically.
 
 **Example**:
+
 ```rust
 let mut vec = Vec::new(); // Create an empty vector
 vec.push(1);              // Add elements
@@ -88,10 +104,12 @@ println!("{:?}", vec);    // Output: [1, 2, 3]
 ```
 
 #### **Array**
+
 - An **array** is a fixed-size collection stored on the stack that holds multiple values of the same type.
 - The size of the array must be known at compile time.
 
 **Example**:
+
 ```rust
 let arr: [i32; 3] = [1, 2, 3]; // Fixed-size array
 println!("{:?}", arr);         // Output: [1, 2, 3]
@@ -111,14 +129,13 @@ println!("{:?}", arr);         // Output: [1, 2, 3]
 ---
 
 ### **Key Notes**
+
 - Use **vectors** when:
   - You don't know the size of the collection in advance.
   - You need to grow or shrink the collection dynamically.
 - Use **arrays** when:
   - The size is constant and known at compile time.
   - You prioritize performance due to stack allocation.
-
-
 
 ---
 
@@ -127,11 +144,13 @@ println!("{:?}", arr);         // Output: [1, 2, 3]
 A **macro** in Rust is a way to write code that writes other code (metaprogramming). Macros are particularly useful for reducing boilerplate and generating code at compile time.
 
 #### **Types of Macros in Rust**
+
 1. **Declarative Macros** (`macro_rules!`)
    - Used for pattern matching and code generation.
    - Examples: `println!`, `vec!`.
 
    **Example**:
+
    ```rust
    macro_rules! say_hello {
        () => {
@@ -152,6 +171,7 @@ A **macro** in Rust is a way to write code that writes other code (metaprogrammi
      - **Function-like Macros**: Invoked like functions.
 
    **Example of Custom Derive**:
+
    ```rust
    #[derive(Debug)]
    struct User {
@@ -171,16 +191,21 @@ A **macro** in Rust is a way to write code that writes other code (metaprogrammi
 ---
 
 ### **What Does `!` Mean in Rust?**
+
 The `!` in Rust indicates that you are invoking a macro instead of a regular function.
 
 #### **Examples:**
+
 - **`println!` Macro**:
+
   ```rust
   fn main() {
       println!("Hello, {}!", "Rust"); // Invokes the println! macro
   }
   ```
+
 - **`vec!` Macro**:
+
   ```rust
   fn main() {
       let numbers = vec![1, 2, 3]; // Creates a vector using the macro
@@ -190,6 +215,7 @@ The `!` in Rust indicates that you are invoking a macro instead of a regular fun
 ---
 
 ### **Why Use Macros Instead of Functions?**
+
 1. **Code Generation**: Macros can generate code at compile time.
 2. **Variable Argument Lists**: Macros handle a flexible number of arguments (e.g., `println!`).
 3. **Optimizations**: Since macros operate at compile time, they can be optimized by the compiler.
@@ -197,13 +223,13 @@ The `!` in Rust indicates that you are invoking a macro instead of a regular fun
 ---
 
 ### **Key Notes**
+
 - Macros allow writing concise and reusable code by generating boilerplate or complex patterns at compile time.
 - The `!` is a syntactic indicator that a macro is being called, not a function.
 - Use macros for tasks like:
   - Debugging (`println!`, `dbg!`)
   - Creating collections (`vec!`)
   - Customizing behavior with procedural macros (e.g., `#[derive(Debug)]`).
-
 
 ---
 
@@ -212,12 +238,14 @@ The `!` in Rust indicates that you are invoking a macro instead of a regular fun
 `#[derive(Debug)]` is an **attribute** in Rust used to automatically implement the `Debug` trait for a struct or enum. This trait enables you to print the values of a struct or enum using the `{:?}` formatter in macros like `println!`.
 
 #### **Why Use `#[derive(Debug)]`?**
+
 - Rust does not automatically provide a way to print the contents of custom types.
 - Adding the `Debug` trait allows you to inspect the values of structs and enums during development or debugging.
 
 #### **Example Usage**
 
 **Without `#[derive(Debug)]`:**
+
 ```rust
 struct User {
     name: String,
@@ -232,9 +260,11 @@ fn main() {
     // println!("{:?}", user); // This will cause a compile-time error
 }
 ```
+
 - The code above will fail because `Debug` is not implemented for `User`.
 
 **With `#[derive(Debug)]`:**
+
 ```rust
 #[derive(Debug)]
 struct User {
@@ -253,6 +283,7 @@ fn main() {
 
 **Pretty Printing with `:#?`:**
 To display the output in a more readable, pretty-printed format:
+
 ```rust
 fn main() {
     let user = User {
@@ -262,8 +293,10 @@ fn main() {
     println!("{:#?}", user);
 }
 ```
+
 **Output**:
-```
+
+```rs
 User {
     name: "Sharath",
     age: 25,
@@ -271,10 +304,12 @@ User {
 ```
 
 #### **How `#[derive(Debug)]` Works**
+
 - `#[derive(Debug)]` generates an implementation of the `Debug` trait for your type.
 - The `Debug` trait is defined in Rust's standard library and provides the `fmt` method to format the type.
 
 **Generated Implementation (Simplified):**
+
 ```rust
 impl std::fmt::Debug for User {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -284,6 +319,7 @@ impl std::fmt::Debug for User {
 ```
 
 #### **Key Notes**
+
 1. **Attribute**: `#[derive(Debug)]` is a Rust attribute for automatic trait derivation.
 2. **Purpose**: Makes it easy to inspect custom types during debugging.
 3. **Usage**:
@@ -291,12 +327,14 @@ impl std::fmt::Debug for User {
    - Use `{:#?}` for pretty-printed debug output.
 4. **Customization**: If needed, you can manually implement the `Debug` trait for more control over the formatting.
 
-
 ---
+
 ### **`format!` Macro**
+
 The `format!` macro in Rust creates formatted strings without printing them directly. It works similarly to `println!`, but instead of printing, it returns the formatted string.
 
 #### **Usage**
+
 ```rust
 fn main() {
     let name = "Sharath";
@@ -307,6 +345,7 @@ fn main() {
 ```
 
 #### **Key Points**
+
 - **Returns a String**: Unlike `println!` which writes to the console, `format!` returns a `String`.
 - **Formatting**: It supports the same formatting as `println!`, including placeholders like `{}` and formatting options like `{:?}`.
 
@@ -315,12 +354,16 @@ fn main() {
 ### **Mutable and Immutable Bindings in Rust**
 
 #### **Bindings in Rust**
+
 A **binding** is an association of a name (variable) to a value. In Rust:
+
 - Variables are **immutable by default**, meaning their value cannot be changed after they are bound.
 - To make a variable mutable, you must explicitly use the `mut` keyword.
 
 #### **Immutable Bindings**
+
 By default, variables cannot be reassigned:
+
 ```rust
 fn main() {
     let x = 10;
@@ -330,7 +373,9 @@ fn main() {
 ```
 
 #### **Mutable Bindings**
+
 Using the `mut` keyword, you can make a variable mutable:
+
 ```rust
 fn main() {
     let mut x = 10;
@@ -350,6 +395,7 @@ fn main() {
 2. **`mut` Keyword**:
    - Explicitly allows a variable to be modified.
    - Example:
+
      ```rust
      let mut count = 0;
      count += 1; // Allowed because of `mut`
@@ -362,6 +408,7 @@ fn main() {
 The `{:#?}` syntax is used with `println!` to pretty-print values, making them easier to read.
 
 #### **Example**
+
 ```rust
 #[derive(Debug)]
 struct User {
@@ -379,7 +426,8 @@ fn main() {
 ```
 
 **Output:**
-```
+
+```rs
 User {
     name: "Sharath",
     age: 25,
@@ -389,6 +437,7 @@ User {
 ---
 
 ### **Key Notes Summary**
+
 - **`format!`**: Returns a formatted string for reuse.
 - **Bindings**: Immutable by default; use `mut` for mutability.
 - **`mut` Keyword**: Required for variables that will change.
@@ -409,6 +458,7 @@ In Rust, you can define **inherent implementations** for structs or enums using 
    - These methods can access fields of the struct or enum.
 
    **Example**:
+
    ```rust
    struct User {
        name: String,
@@ -437,6 +487,7 @@ In Rust, you can define **inherent implementations** for structs or enums using 
      - **`self`**: Refers to the current instance.
 
    **Example**:
+
    ```rust
    impl User {
        fn new(name: String, age: u32) -> Self {
@@ -455,6 +506,7 @@ In Rust, you can define **inherent implementations** for structs or enums using 
    - It simplifies creating instances.
 
    **Example**:
+
    ```rust
    struct Point {
        x: i32,
@@ -478,6 +530,7 @@ In Rust, you can define **inherent implementations** for structs or enums using 
    - **Methods**: Take `self`, `&self`, or `&mut self` as the first parameter and are called using `instance.method()`.
 
    **Example**:
+
    ```rust
    struct Calculator;
 
@@ -502,6 +555,7 @@ In Rust, you can define **inherent implementations** for structs or enums using 
 ---
 
 ### **Key Notes Summary**
+
 1. **`impl`**: Used to define methods and functions associated with a type.
 2. **`Self`**:
    - `Self`: Refers to the type within the `impl` block.
@@ -518,9 +572,11 @@ In Rust, **double quotes (`"`)** and **single quotes (`'`)** have distinct meani
 ---
 
 ### **Double Quotes (`"`)**
+
 Double quotes are used to define **string literals** (`&str` type). A string literal is a slice of UTF-8 text data that is immutable and stored in the program's binary.
 
-#### **Examples**:
+#### **Examples**
+
 ```rust
 fn main() {
     let greeting = "Hello, World!"; // &str type
@@ -528,10 +584,12 @@ fn main() {
 }
 ```
 
-#### **Key Points**:
+#### **Key Points**
+
 - Strings in double quotes (`"`) are of type `&str`, which is a reference to a string slice.
 - `&str` is immutable and stored in memory as a sequence of UTF-8 characters.
 - To create a mutable, heap-allocated string, you can use the `String` type:
+
   ```rust
   let mut dynamic_string = String::from("Hello");
   dynamic_string.push_str(", World!");
@@ -541,9 +599,11 @@ fn main() {
 ---
 
 ### **Single Quotes (`'`)**
+
 Single quotes are used to define **character literals** (`char` type). A `char` represents a single Unicode scalar value, which could be a letter, number, symbol, or even an emoji.
 
-#### **Examples**:
+#### **Examples**
+
 ```rust
 fn main() {
     let letter = 'A'; // char type
@@ -553,7 +613,8 @@ fn main() {
 }
 ```
 
-#### **Key Points**:
+#### **Key Points**
+
 - A `char` is a 4-byte Unicode scalar value.
 - Each `char` represents a single character, unlike strings which can contain multiple characters.
 - A `char` is enclosed in single quotes (`'`), and it cannot represent more than one character.
@@ -561,6 +622,7 @@ fn main() {
 ---
 
 ### **Key Differences Between Double and Single Quotes**
+
 | **Aspect**   | **Double Quotes (`"`)**          | **Single Quotes (`'`)**        |
 | ------------ | -------------------------------- | ------------------------------ |
 | **Type**     | `&str` (string slice)            | `char` (single Unicode scalar) |
@@ -571,6 +633,7 @@ fn main() {
 ---
 
 ### **Practical Usage Differences**
+
 1. **For Text**:
    - Use double quotes (`"`) for strings.
    - Use single quotes (`'`) for single characters.
@@ -580,6 +643,7 @@ fn main() {
    - Characters (`char`) can only be concatenated after conversion to a string.
 
    **Example**:
+
    ```rust
    fn main() {
        let mut text = String::from("Hello");
@@ -591,6 +655,7 @@ fn main() {
 
 3. **Iteration**:
    - Strings can be iterated over to yield individual `char` values.
+
    ```rust
    let greeting = "Hi!";
    for c in greeting.chars() {
@@ -618,6 +683,7 @@ In Rust, the **last expression** in a function, block, or closure is **implicitl
 ### **Examples**
 
 #### **Implicit Return in Functions**
+
 ```rust
 fn add(a: i32, b: i32) -> i32 {
     a + b // Last expression is implicitly returned
@@ -630,6 +696,7 @@ fn main() {
 ```
 
 #### **Explicit Return (Optional)**
+
 ```rust
 fn add(a: i32, b: i32) -> i32 {
     return a + b; // Explicit return is allowed but not necessary
@@ -639,6 +706,7 @@ fn add(a: i32, b: i32) -> i32 {
 ---
 
 #### **Implicit Return in Closures**
+
 ```rust
 fn main() {
     let square = |x: i32| x * x; // Implicit return in closure
@@ -649,6 +717,7 @@ fn main() {
 ---
 
 #### **Implicit Return in Blocks**
+
 You can use blocks (`{}`) with implicit returns inside expressions, such as in `let` bindings:
 
 ```rust
@@ -669,6 +738,7 @@ fn main() {
 1. **When to Use `return`**:
    - Use `return` if you want to exit early from a function, especially within conditional branches.
    - Example:
+
      ```rust
      fn is_even(num: i32) -> bool {
          if num % 2 == 0 {
@@ -701,6 +771,7 @@ fn main() {
    - Use them to write concise and readable code.
 
 ---
+
 ### **What is a Crate in Rust?**
 
 In Rust, a **crate** is the smallest unit of **code compilation and package distribution**. It can be thought of as a **library** or **executable** in the Rust ecosystem. Every piece of Rust code you write is part of a crate.
@@ -717,12 +788,15 @@ In Rust, a **crate** is the smallest unit of **code compilation and package dist
 
 2. **Crate Types**:
    - **Binary Crates**: Contain a `main` function and compile into an executable.
+
      ```rust
      fn main() {
          println!("This is a binary crate!");
      }
      ```
+
    - **Library Crates**: Do not have a `main` function. They are reusable modules.
+
      ```rust
      pub fn greet(name: &str) {
          println!("Hello, {}!", name);
@@ -746,27 +820,34 @@ In Rust, a **crate** is the smallest unit of **code compilation and package dist
 ### **Creating and Using Crates**
 
 #### **Creating a Binary Crate**
+
 ```bash
 cargo new my_binary_crate
 cd my_binary_crate
 ```
+
 - `src/main.rs` will be the crate root.
 
 #### **Creating a Library Crate**
+
 ```bash
 cargo new my_library_crate --lib
 cd my_library_crate
 ```
+
 - `src/lib.rs` will be the crate root.
 
 #### **Using External Crates**
+
 You can add external crates (libraries) to your project by declaring them in the `Cargo.toml` file under the `[dependencies]` section. For example:
+
 ```toml
 [dependencies]
 rand = "0.8"
 ```
 
 Then, use the crate in your code:
+
 ```rust
 use rand::Rng;
 
@@ -800,6 +881,7 @@ fn main() {
 ### **Example: Binary and Library Crate**
 
 **Library Crate (`src/lib.rs`):**
+
 ```rust
 pub fn add(a: i32, b: i32) -> i32 {
     a + b
@@ -807,6 +889,7 @@ pub fn add(a: i32, b: i32) -> i32 {
 ```
 
 **Binary Crate (`src/main.rs`):**
+
 ```rust
 use my_library_crate::add;
 
@@ -817,6 +900,7 @@ fn main() {
 ```
 
 ---
+
 ### **Accessing External Crates and Using Internal Modules in Rust**
 
 Rust provides a powerful module system for organizing code within a crate and accessing external crates. Here’s how to work with both.
@@ -829,6 +913,7 @@ Rust provides a powerful module system for organizing code within a crate and ac
    - To use an external crate, add it to your `Cargo.toml` file under the `[dependencies]` section.
 
    Example:
+
    ```toml
    [dependencies]
    rand = "0.8" # Adding the `rand` crate
@@ -841,6 +926,7 @@ Rust provides a powerful module system for organizing code within a crate and ac
    - Use the `use` keyword to bring external crate items into scope.
 
    Example:
+
    ```rust
    use rand::Rng;
 
@@ -864,6 +950,7 @@ Rust uses modules (`mod`) to organize code inside a crate. Here’s how you can 
    - Code for a module can be in the same file or in separate files.
 
    Example (In the Same File):
+
    ```rust
    mod math {
        pub fn add(a: i32, b: i32) -> i32 {
@@ -882,13 +969,15 @@ Rust uses modules (`mod`) to organize code inside a crate. Here’s how you can 
    - Use `mod` in the parent file to include the module.
 
    File Structure:
-   ```
+
+   ```file structure
    src/
    ├── main.rs
    ├── math.rs
    ```
 
    `main.rs`:
+
    ```rust
    mod math; // Declaring the module
 
@@ -899,6 +988,7 @@ Rust uses modules (`mod`) to organize code inside a crate. Here’s how you can 
    ```
 
    `math.rs`:
+
    ```rust
    pub fn add(a: i32, b: i32) -> i32 {
        a + b
@@ -909,6 +999,7 @@ Rust uses modules (`mod`) to organize code inside a crate. Here’s how you can 
    - Modules can be nested to create a hierarchy.
 
    Example:
+
    ```rust
    mod utilities {
        pub mod math {
@@ -935,7 +1026,8 @@ Rust uses modules (`mod`) to organize code inside a crate. Here’s how you can 
 You can combine external crates with internal modules for a complete program structure.
 
 File Structure:
-```
+
+```bash
 src/
 ├── main.rs
 ├── utilities/
@@ -944,12 +1036,14 @@ src/
 ```
 
 **`Cargo.toml`**:
+
 ```toml
 [dependencies]
 rand = "0.8"
 ```
 
 **`src/main.rs`**:
+
 ```rust
 mod utilities; // Include the `utilities` module
 
@@ -967,11 +1061,13 @@ fn main() {
 ```
 
 **`src/utilities/mod.rs`**:
+
 ```rust
 pub mod math; // Declare the `math` submodule
 ```
 
 **`src/utilities/math.rs`**:
+
 ```rust
 pub fn multiply(a: i32, b: i32) -> i32 {
     a * b
@@ -1004,6 +1100,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 1. **Simplifying Paths**:
    - Instead of using the full path to an item every time, you can use `use` to create a shorter alias.
+
    ```rust
    mod math {
        pub fn add(a: i32, b: i32) -> i32 {
@@ -1021,6 +1118,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 2. **Accessing External Crates**:
    - When working with external crates, `use` is commonly used to bring their components into scope.
+
    ```rust
    use rand::Rng;
 
@@ -1033,6 +1131,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 3. **Working with Nested Modules**:
    - For nested modules, `use` allows accessing deeply nested items more conveniently.
+
    ```rust
    mod utilities {
        pub mod math {
@@ -1052,6 +1151,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 4. **Renaming with `as`**:
    - Use `as` to rename an item in scope, avoiding conflicts or making the name more concise.
+
    ```rust
    use std::io::Result as IoResult;
 
@@ -1063,6 +1163,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 5. **Glob Imports (`*`)**:
    - Bring all public items from a module into scope.
+
    ```rust
    mod math {
        pub fn add(a: i32, b: i32) -> i32 {
@@ -1084,6 +1185,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 6. **Selective Imports**:
    - Import only specific items from a module or crate.
+
    ```rust
    use std::collections::{HashMap, HashSet};
 
@@ -1105,6 +1207,7 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 2. **Organize Imports**:
    - Group related imports together and follow a logical order.
    - Example:
+
      ```rust
      use std::collections::HashMap;
      use std::io::{self, Write};
@@ -1120,8 +1223,10 @@ The `use` keyword in Rust is used to bring **items** (functions, types, traits, 
 
 ### **Common Scenarios Using `use`**
 
-#### **Accessing Traits**:
+#### **Accessing Traits**
+
 To use methods provided by a trait, you often need to `use` the trait.
+
 ```rust
 use std::fmt::Display;
 
@@ -1130,11 +1235,14 @@ fn print_item<T: Display>(item: T) {
 }
 ```
 
-#### **Importing from the Prelude**:
+#### **Importing from the Prelude**
+
 The **Rust prelude** automatically brings commonly used items (e.g., `Vec`, `Option`, `Result`) into every module. If an item is not in the prelude, you need to explicitly `use` it.
 
-#### **External Crates with Modules**:
+#### **External Crates with Modules**
+
 When an external crate has a modular structure, `use` helps you access its components.
+
 ```rust
 use serde_json::{Value, json};
 
@@ -1165,6 +1273,7 @@ The `mod` keyword in Rust is used to declare **modules**. A module is a collecti
    The `mod` keyword is used to declare a module within a file. Modules can be defined in the same file or in separate files.
 
    Example:
+
    ```rust
    mod math {
        pub fn add(a: i32, b: i32) -> i32 {
@@ -1186,16 +1295,19 @@ To organize larger projects, you can place modules in separate files. The `mod` 
 
 1. **Module File Structure**:
    If you have a directory structure like this:
-   ```
+
+   ```bash
    src/
    ├── main.rs
    └── math.rs
    ```
+
    The `main.rs` will declare the `math` module with `mod math;`, and the `math.rs` will contain the module's code.
 
 2. **Example of Separate Module File**:
 
    `src/main.rs`:
+
    ```rust
    mod math; // Declaring the module `math`
 
@@ -1206,6 +1318,7 @@ To organize larger projects, you can place modules in separate files. The `mod` 
    ```
 
    `src/math.rs`:
+
    ```rust
    pub fn add(a: i32, b: i32) -> i32 {
        a + b
@@ -1221,7 +1334,8 @@ You can create nested modules within a module. To organize code in a hierarchica
 1. **Example of Nested Modules**:
 
    File Structure:
-   ```
+
+   ```bash
    src/
    ├── main.rs
    └── utilities/
@@ -1231,6 +1345,7 @@ You can create nested modules within a module. To organize code in a hierarchica
    ```
 
    `src/main.rs`:
+
    ```rust
    mod utilities; // Declaring the `utilities` module
 
@@ -1241,12 +1356,14 @@ You can create nested modules within a module. To organize code in a hierarchica
    ```
 
    `src/utilities/mod.rs`:
+
    ```rust
    pub mod math; // Declaring the `math` submodule
    pub mod string_utils; // Declaring the `string_utils` submodule
    ```
 
    `src/utilities/math.rs`:
+
    ```rust
    pub fn multiply(a: i32, b: i32) -> i32 {
        a * b
@@ -1254,6 +1371,7 @@ You can create nested modules within a module. To organize code in a hierarchica
    ```
 
    `src/utilities/string_utils.rs`:
+
    ```rust
    pub fn reverse(s: &str) -> String {
        s.chars().rev().collect()
@@ -1270,6 +1388,7 @@ By default, items in a module are **private** to that module. If you want to mak
    - The `pub` keyword makes functions, structs, or modules accessible outside the module.
 
    Example:
+
    ```rust
    mod math {
        pub fn add(a: i32, b: i32) -> i32 {
@@ -1287,6 +1406,7 @@ By default, items in a module are **private** to that module. If you want to mak
    - Without `pub`, functions, structs, and variables are private to the module.
 
    Example:
+
    ```rust
    mod math {
        fn subtract(a: i32, b: i32) -> i32 { // Private function
@@ -1304,6 +1424,7 @@ By default, items in a module are **private** to that module. If you want to mak
 ### **The `mod` Keyword and File Structure**
 
 1. **Basic Module Declaration**:
+
    ```rust
    mod module_name; // Declares a module that can be found in `module_name.rs` or `module_name/mod.rs`
    ```
@@ -1311,7 +1432,8 @@ By default, items in a module are **private** to that module. If you want to mak
 2. **Nested Modules in Files**:
    - If you want to define a nested module, you can place it in a subdirectory and use the `mod` keyword in the parent module.
    Example:
-   ```
+
+   ```bash
    src/
    ├── main.rs
    └── math/
@@ -1320,6 +1442,7 @@ By default, items in a module are **private** to that module. If you want to mak
    ```
 
    `src/main.rs`:
+
    ```rust
    mod math; // Declares the `math` module
 
@@ -1330,11 +1453,13 @@ By default, items in a module are **private** to that module. If you want to mak
    ```
 
    `src/math/mod.rs`:
+
    ```rust
    pub mod operations; // Declares the `operations` submodule
    ```
 
    `src/math/operations.rs`:
+
    ```rust
    pub fn add(a: i32, b: i32) -> i32 {
        a + b
@@ -1394,6 +1519,7 @@ In Rust, `usize` is an **unsigned integer type** used primarily for indexing and
    - You can use `usize` to index arrays and slices. It represents the index type of collections like arrays, vectors, and slices.
 
    Example:
+
    ```rust
    fn main() {
        let arr = [10, 20, 30, 40, 50];
@@ -1406,6 +1532,7 @@ In Rust, `usize` is an **unsigned integer type** used primarily for indexing and
    - The `usize` type is returned by methods like `.len()` to represent the size of a collection.
 
    Example:
+
    ```rust
    fn main() {
        let vec = vec![1, 2, 3, 4, 5];
@@ -1418,6 +1545,7 @@ In Rust, `usize` is an **unsigned integer type** used primarily for indexing and
    - `usize` is also used when performing pointer arithmetic or dealing with raw pointers.
 
    Example (unsafe code):
+
    ```rust
    fn main() {
        let arr = [10, 20, 30, 40, 50];
@@ -1435,6 +1563,7 @@ In Rust, `usize` is an **unsigned integer type** used primarily for indexing and
    - In low-level operations, `usize` is used to represent sizes of memory allocations.
 
    Example:
+
    ```rust
    fn main() {
        let size: usize = std::mem::size_of::<u32>(); // Size of a `u32` in bytes
@@ -1478,6 +1607,7 @@ Attributes in Rust are **metadata** applied to various parts of a program, such 
    - Applied to the item that follows them (e.g., a function, struct, or module).
    - Syntax: `#[attribute]`
    - Example:
+
      ```rust
      #[derive(Debug)]
      struct MyStruct {
@@ -1489,6 +1619,7 @@ Attributes in Rust are **metadata** applied to various parts of a program, such 
    - Apply to the enclosing scope (e.g., a module or crate).
    - Syntax: `#![attribute]`
    - Example:
+
      ```rust
      #![allow(dead_code)] // Applies to the entire crate
 
@@ -1508,6 +1639,7 @@ Attributes in Rust are **metadata** applied to various parts of a program, such 
      - `#[forbid(lint)]`: Prevents warnings or errors entirely.
 
    Example:
+
    ```rust
    fn main() {
        #[allow(dead_code)]
@@ -1518,6 +1650,7 @@ Attributes in Rust are **metadata** applied to various parts of a program, such 
 2. **`derive` Attribute**:
    - Automatically implements common traits for a struct or enum (e.g., `Debug`, `Clone`, `PartialEq`).
    - Example:
+
      ```rust
      #[derive(Debug, Clone)]
      struct MyStruct {
@@ -1529,4 +1662,3 @@ Attributes in Rust are **metadata** applied to various parts of a program, such 
    - Used for writing unit
 
 ---
-

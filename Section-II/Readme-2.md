@@ -1,10 +1,10 @@
-### **Ownership, Borrowing, and Lifetime in Rust**
+# **Ownership, Borrowing, and Lifetime in Rust**
 
 Rust’s memory safety model is built on three core concepts: **ownership**, **borrowing**, and **lifetime**. These systems ensure that Rust programs are both safe and efficient without requiring a garbage collector.
 
 ---
 
-### **1. Ownership**
+## **1. Ownership**
 
 Ownership is the foundation of Rust's memory management system. Every value in Rust has an **owner**, which is the variable that holds the value. There are three key rules:
 
@@ -12,7 +12,8 @@ Ownership is the foundation of Rust's memory management system. Every value in R
 2. When the owner goes out of scope, the value is dropped, and its memory is freed.
 3. Ownership can be **transferred** through assignment or function calls (this is called a *move*).
 
-#### Example:
+## Example
+
 ```rust
 fn main() {
     let s1 = String::from("Hello"); // `s1` owns the String
@@ -35,10 +36,12 @@ Borrowing allows you to use a value without taking ownership. This is done throu
 
 2. References must always be valid.
 
-#### Immutable Borrowing:
+#### Immutable Borrowing
+
 You can borrow a value immutably as many times as you like.
 
 Example:
+
 ```rust
 fn main() {
     let s = String::from("Hello");
@@ -51,10 +54,12 @@ fn calculate_length(s: &String) -> usize {
 }
 ```
 
-#### Mutable Borrowing:
+#### Mutable Borrowing
+
 You can borrow a value mutably but only once at a time.
 
 Example:
+
 ```rust
 fn main() {
     let mut s = String::from("Hello");
@@ -73,11 +78,13 @@ fn change(s: &mut String) {
 
 Lifetimes ensure that references are valid for as long as they are used. They prevent **dangling references** (references to invalid memory). Rust uses a system of **lifetime annotations** to track how long references are valid.
 
-#### Key Points about Lifetimes:
+#### Key Points about Lifetimes
+
 1. Lifetimes are determined automatically most of the time using **lifetime elision rules**.
 2. In complex scenarios, you might need to specify lifetimes explicitly with annotations like `'a`.
 
-#### Example of Dangling Reference Prevention:
+#### Example of Dangling Reference Prevention
+
 ```rust
 fn main() {
     let r;
@@ -89,7 +96,8 @@ fn main() {
 }
 ```
 
-#### Explicit Lifetime Annotations:
+#### Explicit Lifetime Annotations
+
 ```rust
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
@@ -106,6 +114,7 @@ fn main() {
     println!("The longest string is {}", result);
 }
 ```
+
 Here, `'a` specifies that the lifetime of the returned reference is tied to the shorter of the two input references.
 
 ---
@@ -119,4 +128,3 @@ Here, `'a` specifies that the lifetime of the returned reference is tied to the 
 These systems work together to make Rust's memory management safe and efficient, eliminating common issues like null pointers, use-after-free bugs, and data races.
 
 ---
-

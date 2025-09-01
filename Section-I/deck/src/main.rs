@@ -14,8 +14,8 @@ impl Deck {
     //this is associated function
     fn new() -> Self {
         //following are area the has fixed values
-        let suits = ["hearts", "spades", "clubs", "diamonds"];
-        let values = [
+        let suits: [&'static str; 4] = ["hearts", "spades", "clubs", "diamonds"];
+        let values: [&'static str; 13] = [
             "ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack",
             "queen", "king",
         ];
