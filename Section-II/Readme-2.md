@@ -127,4 +127,164 @@ Here, `'a` specifies that the lifetime of the returned reference is tied to the 
 
 These systems work together to make Rust's memory management safe and efficient, eliminating common issues like null pointers, use-after-free bugs, and data races.
 
+## 🧩 Ownership, Borrowing & Lifetimes – Introduction
+
+### ⚡ Why Ownership, Borrowing, and Lifetimes?
+
+- Core systems in Rust that ensure **memory safety without garbage collection**.
+- They decide **how data is referenced, shared, and mutated**.
+- Hard at first but mastering them = conquering 90% of Rust’s learning curve.
+- These rules **influence program design** → requires a shift in thinking compared to languages like JavaScript, Python, or C++.
+
+---
+
+### 🧩 Ownership (Intro)
+
+**Working Definition:**
+
+> The ownership system in Rust **limits the ways data can be referenced and mutated**, preventing bugs and improving reasoning about programs.
+
+---
+
+### 🚨 Example Bug in JavaScript
+
+```javascript
+const engine = { working: true };
+
+const mustang = { name: "Mustang", engine };
+const camaro = { name: "Camaro", engine };
+
+function checkCar(car) {
+  if (car.name === "Mustang") {
+    car.engine.working = false;
+  }
+}
+
+checkCar(mustang);
+console.log(mustang.engine.working); // false
+console.log(camaro.engine.working);  // also false 😱
+```
+
+- **Expected**: Only Mustang’s engine should change.
+- **Actual**: Both Mustang and Camaro engines change → because they share the same `engine` reference in memory.
+
+---
+
+### 🧠 The Core Problem
+
+- Many languages allow **shared references** by default.
+- Mutation through one reference causes **side effects** in other places.
+- Leads to **subtle, hard-to-debug bugs**.
+
+---
+
+### ✅ Rust’s Solution
+
+- Rust enforces strict **ownership rules**:
+
+  1. Each value has **exactly one owner**.
+  2. Ownership decides who is responsible for cleanup (dropping the value).
+  3. Ownership rules **prevent aliasing with mutation** unless explicitly handled (via borrowing or smart pointers).
+- If we try to write the Mustang & Camaro example in Rust, the compiler **won’t allow it to compile**.
+
+---
+
+### 🔑 Key Takeaways
+
+1. **Ownership = Safety Net**
+
+   - Forces explicit decisions about who owns and mutates data.
+   - Prevents hidden side effects.
+
+2. **Limits for Safety**
+
+   - Ownership restricts usage but guarantees memory safety.
+
+3. **Big Picture**
+
+   - Ownership + Borrowing + Lifetimes ensure:
+
+     - No *use-after-free*.
+     - No *dangling pointers*.
+     - No *data races*.
+
+## 📝 Ownership Rules (1 & 2)
+
+> Remember: **Rust wants to avoid unexpected updates to values.**
+
+### 🔹 Rule 1: Every value is owned by a single variable (binding)
+
+- When you create a value, it gets an **owner**.
+- Example:
+
+```rust
+struct Bank {
+    name: String,
+}
+
+fn main() {
+    let bank = Bank { name: String::from("ICICI") };
+    // `bank` owns the Bank instance
+}
+```
+
+Here, `bank` is the **owner** of the `Bank` struct value in memory.
+
+---
+
+### 🔹 Rule 2: Assignment = Move (not copy by default)
+
+- When you assign a value to another variable, **ownership is moved**.
+- The old variable becomes invalid → you cannot use it anymore.
+
+```rust
+struct Bank {
+    name: String,
+}
+
+fn main() {
+    let bank = Bank { name: String::from("ICICI") };
+    let other_bank = bank; // ownership moved from `bank` to `other_bank`
+
+    // println!("{:?}", bank.name); ❌ ERROR: bank no longer owns the value
+    println!("{}", other_bank.name); // ✅ works
+}
+```
+
+- After the move, `bank` has **no value** bound to it.
+- Trying to use `bank` will cause a **compile-time error**.
+
+---
+
+### 📊 Visualization
+
+1. Create `bank` → owns `Bank { name: "ICICI" }`.
+2. Assign to `other_bank` → value is **moved**.
+3. `bank` → invalid (no longer owns the value).
+4. Only `other_bank` can be used.
+
+---
+
+### ⚠️ Important Notes (from Rust Docs)
+
+- Some types (like integers, booleans, floats) implement the **Copy trait** → they are *copied*, not moved.
+- Heap-allocated types (like `String`, `Vec`, custom structs) are **moved by default**.
+
+Example with integers (Copy type):
+
+```rust
+fn main() {
+    let x = 5;
+    let y = x; // copies value, not moves
+    println!("x = {}, y = {}", x, y); // ✅ both valid
+}
+```
+
+---
+
+✅ So far we’ve got:
+
+- **Rule 1**: Every value has exactly one owner.
+- **Rule 2**: Assignment moves ownership; old variable becomes invalid (unless type is `Copy`).
+
 ---

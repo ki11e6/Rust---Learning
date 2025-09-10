@@ -29,13 +29,12 @@ impl Bank {
 
 //helper function
 fn print_account(account: Account) {
-    println!("{:#?}", account);
+    println!("{:#?}", account)
 }
 
 fn main() {
     let bank = Bank::new();
     let account = Account::new(1, String::from("Sharath"));
     println!("{:#?}", bank);
-    print_account(account);
     print_account(account);
 }
