@@ -36,5 +36,5 @@ fn main() {
     let bank = Bank::new();
     let account = Account::new(1, String::from("Sharath"));
     println!("{:#?}", bank);
-    print_account(account);
+    println!("{:#?}", account);
 }

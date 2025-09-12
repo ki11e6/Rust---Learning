@@ -288,3 +288,77 @@ fn main() {
 - **Rule 2**: Assignment moves ownership; old variable becomes invalid (unless type is `Copy`).
 
 ---
+
+## 🔗 Borrowing – Introduction
+
+### ⚡ Motivation
+
+- With **ownership rules**, passing a value to a function **moves** it, leaving the original variable invalid.
+- But often we want to **share access** to a value without transferring ownership.
+- This is where **borrowing** comes in.
+
+---
+
+### 🔹 Borrowing = Using References (`&`)
+
+- Instead of moving ownership, we can pass a **reference** (`&T`) to a value.
+- This lets functions **read** the value without taking ownership.
+
+Example:
+
+```rust
+#[derive(Debug)]
+struct Account {
+    balance: i32,
+}
+
+fn print_account(acc: &Account) {
+    println!("{:?}", acc);
+}
+
+fn main() {
+    let account = Account { balance: 100 };
+
+    print_account(&account); // borrow, don't move
+    print_account(&account); // can use again!
+
+    println!("{:?}", account); // ✅ still valid
+}
+```
+
+- `&account` creates a **reference** (a pointer to the value, without taking ownership).
+- The function receives the reference and can **read** from it.
+- The original `account` still owns the value and remains valid.
+
+---
+
+### 📊 Visualization
+
+1. `account` → owns the `Account` struct.
+2. `&account` → creates a reference that **points to** the same value.
+3. Reference is passed into `print_account`.
+4. After the function call, ownership is still with `account`.
+
+---
+
+### ✅ Key Takeaways on Borrowing
+
+1. Borrowing uses **references** (`&T`) instead of moving ownership.
+2. Multiple references can exist, as long as they are **immutable** (read-only).
+3. Borrowing lets you **reuse values across functions** without losing ownership.
+4. Borrowing = *the preferred way of sharing values safely* in Rust.
+
+---
+
+### ⚠️ Notes from Rust Docs
+
+- Borrowing is the **default mechanism** to allow safe, temporary access to data.
+- References follow **borrowing rules**:
+
+  - At any time, you can have either:
+
+    - Multiple **immutable** (`&T`) references, OR
+    - One **mutable** (`&mut T`) reference.
+- This prevents **data races** and **unexpected updates**.
+
+---
