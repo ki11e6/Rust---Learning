@@ -362,3 +362,118 @@ fn main() {
 - This prevents **data races** and **unexpected updates**.
 
 ---
+Here are the **notes** for this transcript, expanded with extra detail from the official Rust documentation:
+
+---
+
+## Borrow System Basics
+
+- **Borrowing** lets you access a value without transferring ownership.
+- A **reference** (`&T`) is a pointer to a value that allows you to use it without moving it.
+- Use borrowing when:
+
+  - Passing a value to multiple functions.
+  - Storing references to values inside other structs.
+  - Avoiding repeated ownership transfers.
+
+---
+
+## Ampersand (`&`) Operator
+
+- Usage depends on **context**:
+
+  1. **Next to a type** → `&Type`
+
+     - Declares a function parameter or variable as a **reference to that type**.
+     - Example:
+
+       ```rust
+       fn print_account(acc: &Account) { ... }
+       ```
+
+  2. **Next to a value** → `&value`
+
+     - Creates a reference (borrow) to an existing owned value.
+
+       ```rust
+       let acc_ref = &account;
+       ```
+
+- Precision: technically, `&value` is borrowing from the **binding/owner** of the value, not the raw value itself.
+
+---
+
+## Immutable (Read-Only) References
+
+- **Default kind of reference** created by `&`.
+
+- Allow you to *read* but not *modify* the underlying value.
+
+- Example:
+
+  ```rust
+  let acc_ref = &account;
+  println!("{}", acc_ref.balance); // ✅ OK
+  acc_ref.balance = 10;             // ❌ Error
+  ```
+
+- **Error reason**:
+
+  > “cannot assign to `...` because it is borrowed as immutable”.
+
+- ✅ You can create **multiple immutable references** at the same time.
+
+  ```rust
+  let r1 = &account;
+  let r2 = &account;
+  println!("{}", r1.holder);
+  println!("{}", r2.balance);
+  ```
+
+- 🔑 Why?
+  Multiple immutable borrows prevent **unexpected data modification bugs** (e.g., two things trying to change the same value without coordination).
+
+---
+
+## Mutable References (will come later)
+
+- Declared with `&mut`.
+- You can only have **one mutable reference** to a value at a time (or no immutable references simultaneously).
+- Enforces **safe mutation without race conditions**.
+
+---
+
+## Borrowing Rule #3 (from transcript)
+
+- **Many immutable (read-only) references** to a value can coexist.
+- They can safely look at the value but cannot change it.
+- This is Rust’s safety guarantee to avoid *hidden side effects*.
+
+---
+
+## Borrowing Rule #4 (from transcript)
+
+- **If a value has active references, you cannot move the value.**
+- Example:
+
+  ```rust
+  let acc_ref1 = &account;
+  let acc_ref2 = &account;
+  let other_account = account; // ❌ Error: value moved while borrowed
+  ```
+
+- Why?
+
+  - Moving would invalidate the references (`acc_ref1`, `acc_ref2`).
+  - Rust prevents dangling references at **compile time**.
+
+---
+
+## Big Picture
+
+- Borrowing rules enforce **memory safety without a garbage collector**.
+- Core principle:
+
+  > *“When in doubt, Rust prevents unexpected mutations and invalid references.”*
+
+---
