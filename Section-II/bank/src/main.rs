@@ -32,9 +32,13 @@ fn print_account(account: &Account) {
     println!("{:#?}", account);
 }
 
+fn change_account(account: &mut Account) {
+    account.balance += 100;
+}
 fn main() {
-    let account = Account::new(1, String::from("Sharath"));
-    let account_ref = &account;
-    print_account(&account_ref);
+    let mut account = Account::new(1, String::from("Sharath"));
+
+    change_account(&mut account);
+
     println!("{:#?}", account);
 }

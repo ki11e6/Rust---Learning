@@ -477,3 +477,131 @@ Here are the **notes** for this transcript, expanded with extra detail from the 
   > *“When in doubt, Rust prevents unexpected mutations and invalid references.”*
 
 ---
+
+## Mutable References in Rust
+
+- **Immutable references (`&T`)** → can read but not modify.
+- To **modify without moving ownership**, Rust provides **mutable references (`&mut T`)**.
+
+---
+
+## Tedious Approach Without Mutable References
+
+- One way to modify a value is:
+
+  - Move ownership into a function.
+  - Update it inside the function.
+  - Return the value.
+  - Reassign it to the original binding.
+- Example:
+
+  ```rust
+  fn change_account(mut acc: Account) -> Account {
+      acc.balance = 10;
+      acc
+  }
+
+  let mut account = Account::new();
+  account = change_account(account);
+  ```
+
+- ✅ Works,
+- ❌ Tedious: must return & reassign every time.
+
+---
+
+## Mutable References (`&mut`)
+
+- Cleaner approach: borrow the value mutably instead of moving it.
+- Syntax:
+
+  - Function argument type: `&mut T`
+  - Passing reference: `&mut value`
+- Example:
+
+  ```rust
+  fn change_account(acc: &mut Account) {
+      acc.balance = 10; // direct modification
+  }
+
+  fn main() {
+      let mut account = Account::new();
+      change_account(&mut account);
+      println!("{}", account.balance); // prints updated balance
+  }
+  ```
+
+### Key Points
+
+- `&mut` lets you **read and write** through the reference.
+- You must declare the original binding as `mut` if you want to pass a mutable reference.
+
+---
+
+## Rules for Mutable References
+
+### Rule #5 — Aliasing XOR Mutability
+
+- At any time:
+
+  - EITHER: many immutable (`&T`) references
+  - OR: exactly one mutable (`&mut T`) reference
+- ❌ You cannot mix immutable and mutable references simultaneously.
+- ❌ You cannot have more than one mutable reference at once.
+- Example:
+
+  ```rust
+  let mut account = Account::new();
+  let r1 = &account;      // immutable borrow
+  let r2 = &mut account;  // ❌ Error: cannot borrow as mutable while immutable borrow exists
+  ```
+
+👉 This prevents **data races** and ensures deterministic behavior, even in single-threaded code.
+
+---
+
+### Rule #6 — No Owner Modification While Borrowed
+
+- If references exist (immutable or mutable), you **cannot modify through the owner** at the same time.
+- Example:
+
+  ```rust
+  let mut account = Account::new();
+  let r = &mut account;
+  account.balance = 20;  // ❌ Error: cannot use `account` while mutable borrow exists
+  ```
+
+- Why?
+  To prevent **unexpected updates** from the perspective of the borrower:
+
+  - A reference assumes the value won’t change “behind its back” except through itself.
+
+---
+
+## When to Use Mutable References
+
+- Commonly used in **helper functions** that mutate values.
+- Cleaner than ownership transfer + return pattern.
+- Allows safe, direct updates without redundant moves.
+
+---
+
+## Big Picture
+
+- Mutable references are powerful but tightly controlled by Rust’s borrow checker.
+- Rules guarantee:
+
+  - No **aliasing + mutation** (no two things writing/reading inconsistently).
+  - No **dangling references**.
+  - No **unexpected state changes**.
+
+---
+
+📌 Summary:
+
+- `&T` → many, read-only.
+- `&mut T` → one, read/write.
+- You cannot mix them simultaneously.
+- Owners cannot mutate while references exist.
+
+---
