@@ -605,3 +605,124 @@ Here are the **notes** for this transcript, expanded with extra detail from the 
 - Owners cannot mutate while references exist.
 
 ---
+
+## Borrow System — Rule #7
+
+### Some types are **copied** instead of **moved**
+
+---
+
+## Key Idea
+
+- Normally, assigning or passing a value **moves ownership**.
+- But for some types, ownership is **not transferred**. Instead, the value is **copied**.
+- These types implement the **`Copy` trait**.
+
+---
+
+## Copy vs. Move
+
+### Move (default behavior)
+
+- For most heap-allocated or complex types (`String`, `Vec<T>`, structs with non-Copy fields):
+
+  - Assignments **transfer ownership**.
+  - The old variable is invalidated.
+
+  ```rust
+  let s1 = String::from("hello");
+  let s2 = s1;        // move
+  println!("{}", s1); // ❌ error: s1 no longer valid
+  ```
+
+### Copy (special case)
+
+- For simple scalar values (numbers, booleans, chars, etc.):
+
+  - Assignments create a **bitwise copy** of the value.
+  - Both variables remain valid.
+
+  ```rust
+  let x = 5;
+  let y = x;          // copy
+  println!("x = {}, y = {}", x, y); // ✅ both usable
+  ```
+
+---
+
+## Copy Types
+
+- **Primitive scalar types**:
+
+  - `i32`, `u32`, `f64`, etc.
+  - `bool`
+  - `char`
+- **Tuples** *if all elements are Copy*
+  e.g. `(i32, i32)` is Copy, but `(i32, String)` is not.
+- **Arrays** *if elements are Copy*
+  e.g. `[i32; 3]` is Copy, but `[String; 3]` is not.
+
+⚠️ **Vectors (`Vec<T>`) are not Copy** (they own heap memory).
+
+---
+
+## Why Rule #7 Feels Surprising
+
+- For most types, Rust enforces strict ownership/move rules.
+- But with Copy types, the move is replaced with a **cheap copy**.
+- At first glance, this seems like ownership rules are being broken:
+
+  ```rust
+  let num = 5;
+  let other_num = num;   // looks like a move, but actually a copy
+  println!("{}", num);   // ✅ still valid
+  ```
+
+---
+
+## Behind the Scenes
+
+- When assigning `num` to `other_num`:
+
+  - Instead of invalidating `num`, Rust just duplicates the bits.
+  - Both `num` and `other_num` independently hold the value `5`.
+- This is why Copy values feel like values in most other programming languages.
+
+---
+
+## `Copy` Trait
+
+- Types that behave this way implement the `Copy` trait.
+- Rules:
+
+  - A type can be `Copy` only if all its components are also `Copy`.
+  - If a type implements `Drop` (custom destructor), it **cannot** be `Copy`.
+    (e.g. `String`, `Vec<T>` are not Copy because they manage heap memory.)
+- Example:
+
+  ```rust
+  fn takes_copy(x: i32) { println!("{}", x); }
+
+  let a = 10;
+  takes_copy(a);   // a is copied, not moved
+  println!("{}", a); // ✅ still valid
+  ```
+
+---
+
+## Intuition
+
+- **Copy types = cheap to duplicate (stack-allocated, fixed size).**
+- **Move types = potentially expensive/dangerous to duplicate (heap-allocated, dynamic).**
+- Rust enforces different rules to keep memory safe and efficient.
+
+---
+
+📌 **Summary**
+
+- Rule #7: Some values don’t move, they copy.
+- Examples: numbers, booleans, chars, arrays/tuples of Copy types.
+- This can feel like ownership rules are being broken — but it’s just a special case for efficiency.
+- Powered by the `Copy` trait.
+
+---
