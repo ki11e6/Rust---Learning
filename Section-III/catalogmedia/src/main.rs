@@ -8,15 +8,36 @@ enum Media {
 
 impl Media {
     fn description(&self) -> String {
-        if let Media::Book { title, author } = self {
-            format!("Book: {} {}", title, author)
-        } else if let Media::Movie { title, director } = self {
-            format!("Movie: {} {}", title, director)
-        } else if let Media::Audiobook { title } = self {
-            format!("Audiobook: {}", title)
-        } else {
-            String::from("Media description!")
+        // if let Media::Book { title, author } = self {
+        //     format!("Book: {} {}", title, author)
+        // } else if let Media::Movie { title, director } = self {
+        //     format!("Movie: {} {}", title, director)
+        // } else if let Media::Audiobook { title } = self {
+        //     format!("Audiobook: {}", title)
+        // } else {
+        //     String::from("Media description!")
+        // }
+        // Pattern matching, using match instead of if let
+        match self {
+            Media::Book { title, author } => format!("Book: {} {}", title, author),
+            Media::Movie { title, director } => format!("Movie: {} {}", title, director),
+            Media::Audiobook { title } => format!("Audiobook: {}", title),
         }
+    }
+}
+
+#[derive(Debug)]
+struct Catalog {
+    items: Vec<Media>,
+}
+
+impl Catalog {
+    fn new() -> Self {
+        Catalog { items: vec![] }
+    }
+
+    fn add(&mut self, media: Media) {
+        self.items.push(media);
     }
 }
 
@@ -41,5 +62,14 @@ fn main() {
     // print_media(cool_audiobook);
     // print_media(bad_book);
 
-    println!("{:#?}", good_movie.description())
+    // println!("{:#?}", good_movie.description());
+    // println!("{:#?}", cool_audiobook.description());
+    // println!("{:#?}", bad_book.description());
+    let mut catelog = Catalog::new();
+
+    catelog.add(cool_audiobook);
+    catelog.add(bad_book);
+    catelog.add(good_movie);
+
+    println!("{:#?}", catelog);
 }
