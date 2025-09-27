@@ -4,6 +4,8 @@ enum Media {
     Book { title: String, author: String },
     Movie { title: String, director: String },
     Audiobook { title: String },
+    Podcast(u32),
+    Placeholder,
 }
 
 impl Media {
@@ -22,6 +24,8 @@ impl Media {
             Media::Book { title, author } => format!("Book: {} {}", title, author),
             Media::Movie { title, director } => format!("Movie: {} {}", title, director),
             Media::Audiobook { title } => format!("Audiobook: {}", title),
+            Media::Podcast(id) => format!("Podcast episode: {}", id),
+            Media::Placeholder => String::from("Placeholder!"),
         }
     }
 }
@@ -58,6 +62,9 @@ fn main() {
     let cool_audiobook = Media::Audiobook {
         title: String::from("Cool Audiobook"),
     };
+
+    let podcast = Media::Podcast(42);
+    let placeholder = Media::Placeholder;
     // print_media(good_movie);
     // print_media(cool_audiobook);
     // print_media(bad_book);
@@ -70,6 +77,15 @@ fn main() {
     catelog.add(cool_audiobook);
     catelog.add(bad_book);
     catelog.add(good_movie);
+    catelog.add(podcast);
+    catelog.add(placeholder);
 
-    println!("{:#?}", catelog);
+    match catelog.items.get(10) {
+        Option::Some(value) => {
+            println!("{}", value.description());
+        }
+        Option::None => {
+            println!("No media found");
+        }
+    }
 }
